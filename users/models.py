@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.conf import settings
 
 '''
 model for holding all the users in the club. 
@@ -61,12 +59,11 @@ class MyUsersManager(BaseUserManager):
 class MyUser(AbstractBaseUser, PermissionsMixin):
     first_name        = models.CharField(max_length=50,null= False)
     last_name        = models.CharField(max_length=50,null= False)
-    nat_id         = models.PositiveIntegerField(max_length=8,null= False,unique=True)       
+    nat_id         = models.PositiveIntegerField(null= False,unique=True)       
     email            = models.EmailField(verbose_name="email", max_length=100, unique=True)
     phone_number     = models.BigIntegerField(unique=True,null= False)
     date_joined      = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login       = models.DateTimeField(verbose_name='last login', auto_now=True)
-
     is_admin         = models.BooleanField(default=False)
     is_active        = models.BooleanField(default=True)
     is_staff         = models.BooleanField(default=False)

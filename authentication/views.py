@@ -9,24 +9,6 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import  IsAuthenticated, AllowAny
 
 class SignInUserView(APIView):
-    # permission_classes = (AllowAny,)
-    # def post(self, request, *args, **kwargs):
-    #     """
-    #     sign up funtion.
-    #     taking in  first_name,email,last_name,password to make a new user
-    #     """
-    #     serializer = RegistrationSerializer(data=request.data,
-    #                                        context={'request': request})
-    #     serializer.is_valid(raise_exception=True)
-    #     user = serializer.save()
-    #     token, created = Token.objects.get_or_create(user=user)
-    #     return Response({
-    #         'token': token.key,
-    #     })
-
-    # permission_classes = (AllowAny,)
-    # serializer_class = RegistrationSerializer
-    # 'first_name','last_name','nat_id','email','phone_number','password'
     def post(self, request):
         self.serializer_class = RegistrationSerializer
         serializer = self.serializer_class(data=request.data)

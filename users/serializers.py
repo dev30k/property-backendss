@@ -15,10 +15,6 @@ def password_validator(password):
 
 class RegistrationSerializer(serializers.Serializer):
     
-    # class Meta:
-    #     model = MyUser
-    #     fields = ('first_name','last_name','nat_id','email','phone_number','password')
-
     first_name = serializers.CharField(error_messages={'message': 'first_name Required.'})
     email = serializers.EmailField(error_messages={'message': 'email Required.'})
     nat_id = serializers.IntegerField(error_messages={'message': 'nat_id Required.'})
@@ -70,7 +66,6 @@ class LoginUserSerializer(serializers.Serializer):
 
         try:
             user = MyUser.objects.get(email=email)
-            print(user.password)
         except:
             user = None
 

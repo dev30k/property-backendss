@@ -15,11 +15,9 @@ class MyUserAdminView(UserAdmin):
     fieldsets = (
         (None, {'fields': ('first_name', 'last_name', 'nat_id',
             'email', 'phone_number','password')}),
-                ('Group Permissions', {
-            'fields': ('groups', 'user_permissions', )
-        }),)
+                )
     add_fieldsets = (
-        (None, {'fields': ('first_name','last_name','nat_id','email','password1', 'password2')}),
+        (None, {'fields': ('first_name','last_name','nat_id','email','password')}),
     )
 
 

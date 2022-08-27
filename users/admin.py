@@ -10,8 +10,6 @@ class MyUserAdminView(UserAdmin):
     list_filter = ('nat_id','email')
     list_display = ('first_name', 'last_name', 'nat_id',
             'email', 'phone_number',)
-
-    
     fieldsets = (
         (None, {'fields': ('first_name', 'last_name', 'nat_id',
             'email', 'phone_number','password')}),
@@ -19,7 +17,6 @@ class MyUserAdminView(UserAdmin):
     add_fieldsets = (
         (None, {'fields': ('first_name','last_name','nat_id','email','password')}),
     )
-
 
     search_fields = ('nat_id',)
     ordering = ('email',)

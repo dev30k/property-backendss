@@ -44,11 +44,11 @@ class MyUsersManager(BaseUserManager):
             nat_id = nat_id,                        
             email=self.normalize_email(email=email),
             phone_number=phone_number,
+            password = password,
             )
         user.is_admin = True
         user.is_staff = True
         user.is_superuser = True
-        user.set_password(password)
         user.save(using=self._db)
 
         return user

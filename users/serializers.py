@@ -26,8 +26,9 @@ class RegistrationSerializer(serializers.Serializer):
         first_name = data.get('first_name')
         last_name = data.get('last_name')
         email = data.get('email')
-        nat_id = data.get('confirm_password')
+        nat_id = data.get('nat_id')
         password = data.get('password')
+        phone_number = data.get('phone_number')
 
         try:
             user = MyUser.objects.get(email=email)
@@ -39,11 +40,22 @@ class RegistrationSerializer(serializers.Serializer):
         except:
             user_nat_id = None
 
+        
+        try:
+            user_phone_no = MyUser.objects.get(phone_number=phone_number)
+        except:
+            user_phone_no = None
+
+
         if user:
             raise serializers.ValidationError('User with given email already exists.')
 
         if user_nat_id:
             raise serializers.ValidationError('National ID already belongs to an account.')
+
+        if user_phone_no:
+            raise serializers.ValidationError('Phone Number already belongs to an account.')
+
             
         if not password_validator(password):
             raise serializers.ValidationError('Password must contain 1 number, 1 upper-case and lower-case letter and a special character.')

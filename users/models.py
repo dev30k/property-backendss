@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 
 '''
 model for holding all the users in the club. 
@@ -30,10 +30,8 @@ class MyUsersManager(BaseUserManager):
             nat_id=nat_id,
             first_name = first_name,
         )
-
         user.set_password(password)
         user.save(using=self._db)
-
         return user
 
     def create_superuser(self,first_name,last_name,nat_id,email,phone_number,password):
@@ -46,17 +44,16 @@ class MyUsersManager(BaseUserManager):
             nat_id = nat_id,                        
             email=self.normalize_email(email=email),
             phone_number=phone_number,
-            password=password,
+            password = password,
             )
         user.is_admin = True
         user.is_staff = True
         user.is_superuser = True
-
         user.save(using=self._db)
 
         return user
 
-class MyUser(AbstractBaseUser, PermissionsMixin):
+class MyUser(AbstractBaseUser):
     first_name        = models.CharField(max_length=50,null= False)
     last_name        = models.CharField(max_length=50,null= False)
     nat_id         = models.PositiveIntegerField(null= False,unique=True)       
@@ -70,7 +67,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     is_superuser     = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['nat_id','phone_number','first_name','last_name','password']
+    REQUIRED_FIELDS = ['nat_id','phone_number','first_name','last_name']
 
     objects = MyUsersManager()
 

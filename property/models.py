@@ -12,10 +12,6 @@ class Business(models.Model):
     payment_account_number = models.CharField(max_length=50,blank=False)
     property_description = models.TextField() 
 
-    # class Meta:
-    #     verbose_name = ("")
-    #     verbose_name_plural = _("")
-
     def __str__(self):
         return self.business_name
     

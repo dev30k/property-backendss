@@ -1,20 +1,24 @@
-from .models import Business
+from .models import Property
 from rest_framework import serializers
 from rest_framework import status
 
-class BusinessSerializer(serializers.Serializer):
+class PropertySerializer(serializers.ModelSerializer):
     
-    business_name = serializers.CharField(error_messages={'message': 'Business name is required.'})
-    payment_account_number = serializers.CharField(error_messages={'message': 'Account number is required.'})
-    property_description = serializers.CharField()
+    class Meta:
+        model = Property
+        fields="__all__"
 
-    def validate(self, data):
-        business_name = data.get('business_name')
-        payment_account_number = data.get('payment_account_number')
-        property_description = data.get('property_description')
-
-        if not business_name or not payment_account_number:
-             raise serializers.ValidationError('Fill all the fields.')
-        
-        return data
+    def create(self, validated_data,instance):
+        landlord=validated_data.pop['landlord'],
+        user = Property(
+            property_image=validated_data['property_image'],
+            units=validated_data['units'],
+            property_type=validated_data['property_type'],
+            number_of_units=validated_data['number_of_units'],
+            county=validated_data['county'],
+            address=validated_data['address'],
+            property_name=validated_data['property_name']
+        )
+        user.save(landlord =instance)
+        return user
     

@@ -1,31 +1,20 @@
 from rest_framework.response import Response
 from django.shortcuts import render
-from .models import Business
+from .models import Property
 from rest_framework.permissions import  IsAuthenticated
 from rest_framework import status
 from rest_framework.views import APIView
-from .serializers import BusinessSerializer
+from .serializers import PropertySerializer
 
 
 class PropertyView(APIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = BusinessSerializer
+    serializer_class = PropertySerializer
     def post(self,request):
 
-        serializer  = BusinessSerializer(data = request.data)
+        serializer  = PropertySerializer(data = request.data)
         if serializer.is_valid():
-            business_name = serializer.validated_data['business_name']
-            payment_account_number = serializer.validated_data['payment_account_number']
-            property_description = serializer.validated_data['property_description']
-
-            business = Business.objects.create(
-                business_name=business_name,
-                payment_account_number=payment_account_number,
-                property_description=property_description,
-                owner=request.user,
-            )
-
-            business.save()
+            serializer.save(landlord =request.user)
 
             response_content = {
                 'status': True,

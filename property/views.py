@@ -4,25 +4,23 @@ from .models import Property
 from rest_framework.permissions import  IsAuthenticated
 from rest_framework import status
 from rest_framework.views import APIView
-from .serializers import PropertySerializer
+from .serializers import PropertySerializer,ResidentailPropertSerializer
 
 
 class PropertyView(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = PropertySerializer
     def post(self,request):
-
+        request.data['landlord']=request.user.pk
         serializer  = PropertySerializer(data = request.data)
         if serializer.is_valid():
-            serializer.save(landlord =request.user)
-
+            saved = serializer.save()
             response_content = {
                 'status': True,
-                'message': 'Businss added successfully.',
+                'message': 'Property added successfully.',
+                'property': saved.id
             }
-
             return Response(response_content, status=status.HTTP_200_OK)
-
         else:
             response_content = {
                 'status': False,
@@ -31,3 +29,37 @@ class PropertyView(APIView):
 
             print(response_content)
             return Response(response_content, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self,request):
+        data = Property.get_property(request.user.first_name)
+        serializer = PropertySerializer(data,many = True)
+        return Response(serializer.data)
+        
+class ResidentailPropertyView(APIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = PropertySerializer
+
+    def post(self,request):
+        serializer  = ResidentailPropertSerializer(data = request.data)
+        if serializer.is_valid():
+            saved = serializer.save()
+            response_content = {
+                'status': True,
+                'message': 'Residentail added successfully.',
+            }
+            return Response(response_content, status=status.HTTP_200_OK)
+        else:
+            response_content = {
+                'status': False,
+                'message': serializer.errors,
+            }
+
+            print(response_content)
+            return Response(response_content, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self,request):
+        data = Property.get_property(request.user.first_name)
+        serializer = PropertySerializer(data,many = True)
+        return Response(serializer.data)
+        
+    pass

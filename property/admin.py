@@ -1,18 +1,29 @@
 from django.contrib import admin
-from .models import Business
+from .models import *
 
 
-class BusinessAdminVeiw(admin.ModelAdmin):
-    list_filter = ('business_name','owner__first_name')
-    list_display = ('business_name', 'uuid',)
-    readonly_fields = ('uuid','payment_account_number')
+
+class ResidentailPropertyInline(admin.TabularInline):
+    model = ResidentailProperty
+
+class CommercialPropertyInline(admin.TabularInline):
+    model = CommercialProperty
+
+
+class PropertyAdminVeiw(admin.ModelAdmin):
+    list_filter = ('property_name','landlord__first_name')
+    list_display = ('property_name','landlord','address','county',)
+
 
     
-    fieldsets = (
-        (None, {'fields': ('owner','uuid', 'payment_account_number',
-        'property_description')}),
-                )
 
-    search_fields = ('business_name','owner__first_name')
-    filter_horizontal = ()        
-admin.site.register(Business,BusinessAdminVeiw)
+    search_fields = ('property_name','landlord',)
+    filter_horizontal = ()    
+    inlines = [
+        ResidentailPropertyInline,
+        CommercialPropertyInline
+    ]
+
+admin.site.register(Property,PropertyAdminVeiw)
+
+

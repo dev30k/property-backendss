@@ -11,7 +11,9 @@ class PropertyView(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = PropertySerializer
     def post(self,request):
+        request.data._mutable = True
         request.data['landlord']=request.user.pk
+        request.data._mutable = False
         serializer  = PropertySerializer(data = request.data)
         if serializer.is_valid():
             saved = serializer.save()

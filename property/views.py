@@ -11,9 +11,7 @@ class PropertyView(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = PropertySerializer
     def post(self,request):
-        request.data._mutable = True
         request.data['landlord']=request.user.pk
-        request.data._mutable = False
         serializer  = PropertySerializer(data = request.data)
         if serializer.is_valid():
             saved = serializer.save()
@@ -36,28 +34,31 @@ class PropertyView(APIView):
         data = Property.get_property(request.user.first_name)
         serializer = PropertySerializer(data,many = True)
         return Response(serializer.data)
-        
-class ResidentailPropertyView(APIView):
+
+class ResidentialPropertyView(APIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = PropertySerializer
 
     def post(self,request):
-        serializer  = ResidentailPropertSerializer(data = request.data)
-        if serializer.is_valid():
-            saved = serializer.save()
-            response_content = {
-                'status': True,
-                'message': 'Residentail added successfully.',
-            }
-            return Response(response_content, status=status.HTTP_200_OK)
-        else:
-            response_content = {
-                'status': False,
-                'message': serializer.errors,
-            }
+        print(request.data)
+        for residential_data in request.data:
 
-            print(response_content)
-            return Response(response_content, status=status.HTTP_400_BAD_REQUEST)
+            serializer  = ResidentailPropertSerializer(data=residential_data)
+            if serializer.is_valid():
+                serializer.save()
+
+            else:
+                response_content = {
+                    'status': False,
+                    'message': serializer.errors,
+                }
+                return Response(response_content, status=status.HTTP_400_BAD_REQUEST)
+
+        response_content = {
+            'status': True,
+            'message': 'Residential added successfully.',
+        }
+        return Response(response_content, status=status.HTTP_200_OK)
 
     def get(self,request):
         data = Property.get_property(request.user.first_name)

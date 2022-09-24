@@ -48,7 +48,7 @@ class ResidentailProperty(models.Model):
     market_rent = models.PositiveIntegerField(blank=False)
     beds = models.PositiveIntegerField(blank=False)
     square_feet = models.FloatField(null=False, blank=False)
-    number_or_units = models.PositiveIntegerField(blank=False)
+    number_of_units = models.PositiveIntegerField(blank=False)
 
     # care_taker TODO: creat care taker table
 

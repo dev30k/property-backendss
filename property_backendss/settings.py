@@ -66,9 +66,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "property_backendss.wsgi.application"
 
-# CORS_ORIGIN_WHITELIST=[
-#     "http://localhost:3000"
-# ]
+CORS_ORIGIN_WHITELIST=[
+    "http://localhost:3000"
+]
 
 
 

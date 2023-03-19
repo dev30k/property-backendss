@@ -49,6 +49,7 @@ class ResidentailProperty(models.Model):
     beds = models.PositiveIntegerField(blank=False)
     square_feet = models.FloatField(null=False, blank=False)
     number_of_units = models.PositiveIntegerField(blank=False)
+    # add vacant field
 
     # care_taker TODO: creat care taker table
 

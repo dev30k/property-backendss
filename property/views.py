@@ -33,7 +33,12 @@ class PropertyView(APIView):
     def get(self,request):
         data = Property.get_property(request.user.first_name)
         serializer = PropertySerializer(data,many = True)
-        return Response(serializer.data)
+        response_content = {
+                'status': True,
+                'message': 'Property listing.',
+                'property': serializer.data
+            }
+        return Response(response_content, status=status.HTTP_200_OK)
 
 class ResidentialPropertyView(APIView):
     permission_classes = (IsAuthenticated,)
